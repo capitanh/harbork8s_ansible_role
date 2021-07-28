@@ -1,38 +1,50 @@
-Role Name
-=========
-
-A brief description of the role goes here.
+Harbor on Kubernetes Ansible Role
+===============================
+This role will deploy the official Harbor helm chart onto a k8s cluster (tested only in microk8s, due to specific storage class)
 
 Requirements
 ------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A functioning nicrok8s installation. You can use the following role to boot up such a cluster:
+https://github.com/capitanh/microk8s_ansible_role
 
 Role Variables
 --------------
+Tne variables required by this role are:
+```yaml
+# General
+harbor_namespace:         harbor                      # k8s cluster namespace to deploy pods under
+harbor_app_name:          harbor                      # Deployed helm app name
+harbor_password:          admim                       # Admin password
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+# Persistent volume
+harbor_pv_name:           harbor-server               # Persisten volume name
+harbor_pv_storage_size:   30Gi                        # Persistent volume size
+
+# Persistent volume claim
+harbor_pvc_name:          harbor-server               # Persistent volume claim name
+harbor_pvc_size:          30Gi                        # Persistent volume claim size
+harbor_data_dir:          /var/harbor                 # Harbor root dir
+
+```
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
+Register the role in requirements.yml:
+```yaml
+    - src: capitanh.harbork8s_ansible_role
+      name: harbork8s
+```
+Include it in your playbooks:
+```yaml
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+      - harbork8s
+```
 
 License
 -------
-
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
