@@ -1,0 +1,37 @@
+---
+- name: Install requrided pakages
+  apt:
+    name:
+      - pip
+
+- name: Install pip packages
+  pip:
+    name:
+      - kubernetes
+
+- name: Create harbor folders
+  file:
+    path: "{{harbor_data_dir}}"
+    state: directory
+    owner: "{{admin_user}}"
+    group: "{{admin_user}}"
+    mode: 0777
+
+- name: Create k8s resources
+  kubernetes.core.k8s:
+    template:
+    - ns.yml
+    - pv.yml
+    - pvc.yml
+  become_user: "{{admin_user}}"
+
+- name: Install harbor helm chart
+  kubernetes.core.helm:
+    release_name: "{{harbor_app_name}}"
+    chart_ref: harbor
+    chart_repo_url: https://helm.goharbor.io
+    release_namespace: "{{harbor_namespace}}"
+    wait: yes
+    values_files:
+      - /tmp/harbor_values.yml
+  become_user: "{{admin_user}}"

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{harbor_pv_name}}
+  labels:
+    type: local
+spec:
+  storageClassName: {{storage_class_name}}
+  capacity:
+    storage: {{harbor_pv_storage_size}}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{harbor_data_dir}}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{harbor_pvc_name}}
+  namespace: {{harbor_namespace}}
+spec:
+  storageClassName: {{storage_class_name}}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{harbor_pvc_size}}
