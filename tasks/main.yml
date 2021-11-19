@@ -31,7 +31,7 @@
     chart_ref: harbor
     chart_repo_url: https://helm.goharbor.io
     release_namespace: "{{harbor_namespace}}"
-    wait: yes
+    wait: no
     values_files:
       - /tmp/harbor_values.yml
   become_user: "{{admin_user}}"
