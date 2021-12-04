@@ -9,6 +9,6 @@ spec:
   capacity:
     storage: {{harbor_pv_storage_size}}
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
     path: {{harbor_data_dir}}

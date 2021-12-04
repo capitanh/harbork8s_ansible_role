@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: {{storage_class_name}}
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: {{harbor_pvc_size}}
